@@ -6,6 +6,11 @@ import morgan from 'morgan';
 import cors from 'cors';
 import { errorHandler, notFoundErrorHandler } from './src/middlewares/errorHandler.js';
 import userRouter from './src/routes/api/userRoutes.js';
+import vendorRouter from './src/routes/api/vendorRoutes.js';
+import productRouter from './src/routes/api/productRoutes.js';
+import categoryRouter from './src/routes/api/categoryRoutes.js';
+import subCategoryRouter from './src/routes/api/subCategoryRoutes.js';
+import wishlistRouter from './src/routes/api/wishlistRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -23,6 +28,11 @@ app.use(cors());
 
 // Api routes
 app.use('/api/users', userRouter);
+app.use('/api/vendors', vendorRouter);
+app.use('/api/products', productRouter);
+app.use('/api/categories', categoryRouter);
+app.use('/api/subcategories', subCategoryRouter);
+app.use('/api/wishlists', wishlistRouter);
 
 
 

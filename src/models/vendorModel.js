@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import slugify from "slugify";
 
 const vendorSchema = new mongoose.Schema({
     user:{
@@ -9,6 +10,10 @@ const vendorSchema = new mongoose.Schema({
     storeName: {
         type: String,
         required: true,
+    },
+    slug: {
+        type: String,
+        unique: true,
     },
     storeDescription: {
         type: String,
@@ -34,4 +39,9 @@ const vendorSchema = new mongoose.Schema({
 }
 );
 
-const Vendor = mongoose.model("Vendor", vendorSchema);
+vendorSchema.pre("save",async function (next) {
+    this.slug = slugify(this.storeName, { lower: true });
+    next();
+});
+
+export const Vendor = mongoose.model("Vendor", vendorSchema);

@@ -15,14 +15,14 @@ export const protect = async (req, res, next) => {
         }
     }
     if(!token){
-        throw new AppError("Not authorized to access this route", 401);
+        res.status(401).json({ status: false, message: "Not authorized to access this route" });
     }
 };
 
 export const authorize = (...roles) => {
     return (req, res, next) => {
         if(!roles.includes(req.user.role)){
-            throw new AppError(`User role ${req.user.role} is not authorized to access this route`, 403);
+            res.status(403).json({ status: false, message: "Not authorized to access this route" });
         }
         next();
     };

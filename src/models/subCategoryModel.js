@@ -1,11 +1,16 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
 
-const categorySchema = new mongoose.Schema({
+const subCategorySchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
         unique: true,
+    },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Category",
+        required: true,
     },
     slug: {
         type: String,
@@ -18,16 +23,17 @@ const categorySchema = new mongoose.Schema({
     isActive: {
         type: Boolean,
         default: true,
-    }
+    },
 },
 {
     timestamps: true,
 }
 );
 
-categorySchema.pre("save",async function (next) {
+subCategorySchema.pre("save",async function (next) {
     this.slug = slugify(this.name, { lower: true });
     next();
 });
 
-export const Category = mongoose.model("Category", categorySchema);
+
+export const SubCategory = mongoose.model("SubCategory", subCategorySchema);

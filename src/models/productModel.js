@@ -1,4 +1,5 @@
 import mongoose, { model } from "mongoose";
+import slugify from "slugify";
 
 const productVariationSchema = new mongoose.Schema({
     quantity: {
@@ -20,6 +21,10 @@ const productSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+    },
+    slug: {
+        type: String,
+        unique: true,
     },
     description: {
         type: String,
@@ -65,5 +70,10 @@ const productSchema = new mongoose.Schema({
     timestamps: true,
 }
 );
+
+productSchema.pre("save", async function (next) {
+    this.slug = slugify(this.name, { lower: true });
+    next();
+});
 
 export const Product = model("Product", productSchema);
